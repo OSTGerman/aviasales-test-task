@@ -1,1 +1,48 @@
 @import "src/styles/base"
+
+.button
+  appearance: none
+  border-radius: var(--base-radius)
+  background-color: transparent
+  box-shadow: none
+  color: inherit
+  border: 0
+  margin: 0 0 var(--base-margin)
+  padding: rem(10px) var(--base-padding)
+  transition: 200ms
+  cursor: pointer
+  display: block
+  width: 100%
+  height: var(--button-height)
+  text-align: center
+  font-family: $font-family-sans
+  +header-uppercase
+  &:disabled
+    pointer-events: none
+    cursor: default
+  &--primary
+    background-color: var(--accent)
+    border: 1px solid var(--accent)
+    color: white
+    &:hover
+      filter: brightness(0.95)
+  &--secondary
+    background-color: white
+    border: 1px solid var(--border)
+    color: var(--text)
+    &:hover
+      background-color: var(--hover)
+
+.button-group
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  > .button
+    margin-bottom: 0
+    &:not(:first-child)
+      border-left: 0
+      border-top-left-radius: 0
+      border-bottom-left-radius: 0
+    &:not(:last-child)
+      border-top-right-radius: 0
+      border-bottom-right-radius: 0

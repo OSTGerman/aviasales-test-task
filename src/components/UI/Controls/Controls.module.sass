@@ -1,1 +1,55 @@
 @import "src/styles/base"
+
+.checkbox,
+.radio
+  position: relative
+  display: block
+  padding-left: rem(30px)
+  cursor: pointer
+  +body-small
+  input[type="radio"],
+  input[type="checkbox"],
+  &__image
+    position: absolute
+    left: 0
+    top: 50%
+    margin: rem(-10px) 0 0
+    display: block
+    width: rem(20px)
+    height: rem(20px)
+    z-index: 2
+    padding: 0
+    cursor: pointer
+  input[type="radio"],
+  input[type="checkbox"]
+    opacity: 0
+    z-index: 3
+    &:checked + div
+      border: 0
+      > .checked
+        display: block
+    &:hover + div:before
+      opacity: 1
+.checkbox
+  &__image
+    border: 1px solid var(--border-1)
+    border-radius: rem(2px)
+    color: var(--accent)
+    > .checked
+      display: none
+
+.radio
+  input[type="radio"]:checked + div:after
+    display: block
+  &__image
+    border: 1px solid var(--border-1)
+    width: rem(20px)
+    height: rem(20px)
+    border-radius: 50%
+    color: var(--accent)
+    > .checked
+      display: none
+
+.disabled
+  opacity: 0.5
+  pointer-events: none

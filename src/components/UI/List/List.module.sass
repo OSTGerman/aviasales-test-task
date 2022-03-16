@@ -1,0 +1,16 @@
+@import "src/styles/base"
+
+.list,
+.item
+  position: relative
+  display: block
+
+.item
+  height: var(--list-item-height)
+  padding: rem(10px) var(--base-padding)
+  transition: background 200ms
+  &:not(.disabled):hover
+    background-color: var(--hover)
+
+.list
+  padding-bottom: rem(15px)

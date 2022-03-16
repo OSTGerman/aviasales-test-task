@@ -1,1 +1,26 @@
 @import "src/styles/base"
+
+.header
+  display: flex
+  align-items: center
+  justify-content: center
+  padding-top: rem(40px)
+  padding-bottom: rem(31px)
+
+.content
+  max-width: rem(754px)
+  position: relative
+  margin: 0 auto
+  display: grid
+  grid-gap: var(--base-margin)
+  grid-template-columns: rem(232px) auto
+  grid-template-areas: 'filter sort' 'filter result'
+
+.filter
+  grid-area: filter
+
+.sort
+  grid-area: sort
+
+.result
+  grid-area: result

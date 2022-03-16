@@ -7,6 +7,7 @@ $screen-lg: 1280px
 $font-size-base:    16px
 $line-height-base:  24px
 
+$font-family-sans: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
 $font-weight: (bold: 700, semibold: 600, regular: 400, light: 300)
 
 @use "sass:math"
@@ -66,7 +67,7 @@ $font-weight: (bold: 700, semibold: 600, regular: 400, light: 300)
 // text sizes
 = header-uppercase()
   +font('semibold', 12px, 12px)
-  letter-spacing: 0.01em
+  letter-spacing: 0.042em
   text-transform: uppercase
 
 = body-large()
@@ -104,14 +105,15 @@ $font-weight: (bold: 700, semibold: 600, regular: 400, light: 300)
   --accent: #2196F3
   --hover: #F1FCFF
   --border: #DFE5EC
+  --border-1: #9ABBCE
 
 // size variables
 = sizes()
-  --base-margin: rem(20px)
-  --base-padding: rem(20px)
-  --base-radius: rem(5px)
-  --button-height: rem(50px)
-  --list-item-height: rem(40px)
+  --base-margin: #{ rem(20px) }
+  --base-padding: #{ rem(20px) }
+  --base-radius: #{ rem(5px) }
+  --button-height: #{ rem(50px) }
+  --list-item-height: #{ rem(40px) }
 
 // other variables
 = variables()
