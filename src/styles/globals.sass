@@ -1,0 +1,59 @@
+@import "base/index"
+@import "reset"
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap')
+
+\:root
+  font-size: 16px
+  +color-scheme
+  +sizes
+
+html
+  height: 100%
+
+body
+  position: relative
+  width: 100%
+  height: auto
+  min-height: 100%
+  background: var(--bg)
+  color: var(--text)
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+  +body-medium
+
+  -webkit-text-size-adjust: 100%
+  -ms-text-size-adjust: none
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+  overflow-x: hidden
+  overflow-y: auto
+
+  &.locked
+    overflow: hidden
+
+*:focus, *:active
+  outline: none
+
+h1, h2
+  +body-large
+
+h3
+  +header-uppercase
+
+h4
+  +body-medium
+
+p
+  margin: rem(16px 0)
+
+a
+  color: var(--accent)
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+
+.locked
+  overflow: hidden!important
+

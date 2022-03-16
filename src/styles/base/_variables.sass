@@ -1,0 +1,119 @@
+// screen breakpoints
+$screen-xs: 480px
+$screen-sm: 760px
+$screen-md: 1000px
+$screen-lg: 1280px
+
+$font-size-base:    16px
+$line-height-base:  24px
+
+$font-weight: (bold: 700, semibold: 600, regular: 400, light: 300)
+
+@use "sass:math"
+
+@use "sass:list"
+@use "sass:map"
+
+@function rem($sizes)
+  $result: null
+  @if list.length($sizes) >= 1
+    $value: list.nth($sizes, 1)
+    @if $value != 0 and $value != auto
+      $remSize: math.div($value, $font-size-base)
+      $result: #{$remSize}rem
+    @else
+      $result: $value
+  @if list.length($sizes) >= 2
+    $value: list.nth($sizes, 2)
+    @if $value != 0 and $value != auto
+      $remSize: math.div($value, $font-size-base)
+      $result: list.append($result, #{$remSize}rem)
+    @else
+      $result: list.append($result, $value)
+  @if list.length($sizes) >= 3
+    $value: list.nth($sizes, 3)
+    @if $value != 0 and $value != auto
+      $remSize: math.div($value, $font-size-base)
+      $result: list.append($result, #{$remSize}rem)
+    @else
+      $result: list.append($result, $value)
+  @if list.length($sizes) >= 4
+    $value: list.nth($sizes, 4)
+    @if $value != 0 and $value != auto
+      $remSize: math.div($value, $font-size-base)
+      $result: list.append($result, #{$remSize}rem)
+    @else
+      $result: list.append($result, $value)
+  @return $result
+
+
+= font-size($font-size: $font-size-base, $line-height: $line-height-base, $important: false)
+  @if $important
+    font-size: rem($font-size)!important
+    line-height: math.div($line-height, $font-size)!important
+  @else
+    font-size: rem($font-size)
+    line-height: math.div($line-height, $font-size)
+
+= font($weight, $size: $font-size-base, $height: $line-height-base, $important: false)
+  @if $important
+    font-weight: map.get($font-weight, $weight)!important
+  @else
+    font-weight: map.get($font-weight, $weight)
+  @if $size
+    +font-size($size, $height, $important)
+
+// text sizes
+= header-uppercase()
+  +font('semibold', 12px, 12px)
+  letter-spacing: 0.01em
+  text-transform: uppercase
+
+= body-large()
+  +font('semibold', 24px, 24px)
+  letter-spacing: 0
+
+= body-medium()
+  +font('semibold', 14px, 21px)
+  letter-spacing: 0
+
+= body-small()
+  +font('regular', 13px, 20px)
+  letter-spacing: 0
+
+= optional-at-root($sel)
+  @at-root #{if(not &, $sel, selector-append(&, $sel))}
+    @content
+
+= placeholder
+  +optional-at-root('::-webkit-input-placeholder')
+    @content
+  +optional-at-root(':-moz-placeholder')
+    @content
+  +optional-at-root('::-moz-placeholder')
+    @content
+  +optional-at-root(':-ms-input-placeholder')
+    @content
+
+// colors
+= color-scheme()
+  --bg: #F3F7FA
+  --bg-1: #FFFFFF
+  --text: #4A4A4A
+  --mute: #A0B0B9
+  --accent: #2196F3
+  --hover: #F1FCFF
+  --border: #DFE5EC
+
+// size variables
+= sizes()
+  --base-margin: rem(20px)
+  --base-padding: rem(20px)
+  --base-radius: rem(5px)
+  --button-height: rem(50px)
+  --list-item-height: rem(40px)
+
+// other variables
+= variables()
+  --base-timing-function: cubic-bezier(0.25, 0.46, 0.33, 0.98)
+  --base-duration: 700ms
