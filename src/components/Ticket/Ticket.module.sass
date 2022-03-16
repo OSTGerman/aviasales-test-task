@@ -4,3 +4,18 @@
   +body-large
   color: var(--accent)
 
+.content
+  padding: var(--base-padding)
+  padding-top: rem(10px)
+
+.row
+  display: grid
+  grid-column-gap: var(--base-margin)
+  grid-template-columns: repeat(3, 1fr)
+  + .row
+    margin-top: rem(10px)
+
+.title
+  color: var(--mute)
+  line-height: 1.5
+
