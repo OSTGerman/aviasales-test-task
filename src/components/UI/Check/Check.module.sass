@@ -30,25 +30,19 @@
         display: block
     &:hover + div:before
       opacity: 1
-.checkbox
   &__image
     border: 1px solid var(--border-1)
-    border-radius: rem(2px)
     color: var(--accent)
     > .checked
       display: none
 
-.radio
-  input[type="radio"]:checked + div:after
-    display: block
+.checkbox
   &__image
-    border: 1px solid var(--border-1)
-    width: rem(20px)
-    height: rem(20px)
+    border-radius: rem(2px)
+
+.radio
+  &__image
     border-radius: 50%
-    color: var(--accent)
-    > .checked
-      display: none
 
 .disabled
   opacity: 0.5
