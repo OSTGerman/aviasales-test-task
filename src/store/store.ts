@@ -15,8 +15,8 @@ export const Store = types
         companyId: null as string | null,
     }))
     .views((self) => ({
-        get hasTickets(): boolean {
-            return self.tickets.length < self.totalTickets;
+        get hasTickets(): number {
+            return self.totalTickets - self.tickets.length;
         },
     }))
     .actions((self) => {

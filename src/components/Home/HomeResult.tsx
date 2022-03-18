@@ -4,9 +4,11 @@ import styles from '@components/Home/Home.module.sass';
 import Ticket from '@components/Ticket/Ticket';
 import Button from '@components/UI/Buttons/Button';
 import { useStore } from '@store/store';
+import { declOfNum } from '@utils/helperUtils';
 
 const HomeResult: React.FC = observer(() => {
     const { tickets, loadTickets, hasTickets } = useStore();
+    const ticketsCount = React.useMemo(() => (hasTickets < 5 ? hasTickets : 5), [hasTickets]);
     return (
         <div className={styles.result}>
             {!tickets.length ? (
@@ -16,9 +18,9 @@ const HomeResult: React.FC = observer(() => {
                     {tickets.map((ticket) => (
                         <Ticket key={ticket.id} ticket={ticket} />
                     ))}
-                    {hasTickets && (
+                    {!!ticketsCount && (
                         <Button mode={'primary'} onClick={() => loadTickets()}>
-                            Показать еще 5 билетов!
+                            Показать еще {ticketsCount} {declOfNum(ticketsCount, ['билет', 'билета', 'билетов'])}!
                         </Button>
                     )}
                 </>

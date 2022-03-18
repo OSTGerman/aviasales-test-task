@@ -10,8 +10,8 @@ export const calcDuration = (timestamp: number): string => {
     let result = '';
     const hour = ~~(timestamp / 3600000);
     const minutes = ~~((timestamp - hour * 3600000) / 60000);
-    if (hour) result += `${hour}ч `;
-    if (minutes || !hour) result += `${minutes}м`;
+    if (hour) result += `${hour}ч`;
+    if (minutes || !hour) result += ` ${minutes}м`;
     return result;
 };
 
@@ -23,7 +23,11 @@ export const declOfNum = (number: number, titles: string[]): string => {
 
 export const priceConverter = (amount: number): string => {
     const currency = 'Р';
-    const [int, dec] = amount.toString().split('.');
-    const dis = int.length > 3 ? int.length % 3 : 0;
-    return (dis ? int.substring(0, dis) + ' ' : '') + int.substring(dis) + (dec ? '.' + dec : '') + ' ' + currency;
+    const [int, dec] = amount.toFixed(2).split('.');
+    function getSubstring(str: string): string {
+        if (!str.length) return '';
+        const dis = str.length > 3 ? (str.length % 3 ? str.length % 3 : 3) : 0;
+        return dis ? str.substring(0, dis) + ' ' + getSubstring(str.substring(dis)) : str.substring(dis);
+    }
+    return getSubstring(int) + (Number(dec) ? '.' + dec : '') + ' ' + currency;
 };
