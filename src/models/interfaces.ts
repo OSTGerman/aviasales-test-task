@@ -1,12 +1,13 @@
 // сам билет, включает в себя остальные сущности
-export interface Ticket {
+export interface Ticket<T> {
     id: string;
     // Цена в рублях
     price: number;
     // идентификатор компании которая осуществляет перевозку
     companyId: string;
     // Массив идентификаторов перелётов
-    segments: string[];
+    segments: T[];
+    company?: Company;
 }
 
 // Список кодов городов. Мы в каждом билете будем лететь с MOW в EKT

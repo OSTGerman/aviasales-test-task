@@ -18,9 +18,7 @@ class MyDocument extends Document<MyDocumentInitialProps> {
     render(): React.ReactElement {
         return (
             <Html>
-                <Head>
-                    <title>Aviasales Test Task</title>
-                </Head>
+                <Head />
                 <body>
                     <div dangerouslySetInnerHTML={{ __html: this.props.spriteContent }} />
                     <Main />

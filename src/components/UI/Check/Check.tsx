@@ -17,7 +17,7 @@ const icons = {
 
 const Check: React.FC<ControlProps> = ({ mode, checked, children, labelClassName, disabled, ...props }) => (
     <label htmlFor={props.id} className={classNames(styles[mode], labelClassName, { [styles.disabled]: disabled })}>
-        <input {...props} type={mode} value={props.name} defaultChecked={checked} />
+        <input {...props} type={mode} value={props.name} checked={checked} />
         <div className={styles[`${mode}__image`]}>
             <Icon id={icons[mode].id} viewBox={icons[mode].viewBox} className={styles.checked} />
         </div>

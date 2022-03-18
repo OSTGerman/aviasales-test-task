@@ -14,6 +14,7 @@
   display: grid
   grid-gap: var(--base-margin)
   grid-template-columns: rem(232px) auto
+  grid-template-rows: rem(50px) auto
   grid-template-areas: 'filter sort' 'filter result'
 
 .filter
@@ -25,7 +26,8 @@
 .result
   grid-area: result
 
-.loading
+.nofound
   display: flex
-  align-items: flex-start
+  align-items: center
   justify-content: center
+  height: rem(100px)

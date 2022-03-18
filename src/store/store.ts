@@ -1,48 +1,87 @@
 import React from 'react';
-import { applySnapshot, flow, Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
+import { applySnapshot, cast, flow, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { TicketModel } from '@store/Ticket.model';
-import { CompanyModel, ICompany } from '@store/Company.model';
-import { ISegment, SegmentModel } from '@store/Segment.model';
 
+export type Sort = 'price' | 'duration' | 'optimal';
 export const Store = types
     .model({
         tickets: types.array(TicketModel),
-        companies: types.array(CompanyModel),
-        segments: types.array(SegmentModel),
+        stops: types.array(types.string),
     })
+    .volatile(() => ({
+        page: 1,
+        sort: 'price' as Sort,
+        totalTickets: 0,
+        companyId: null as string | null,
+    }))
     .views((self) => ({
-        getSegment(id: string): ISegment | undefined {
-            return self.segments.find((s) => s.id === id) || undefined;
-        },
-        getCompany(id: string): ICompany | undefined {
-            return self.companies.find((s) => s.id === id) || undefined;
+        get hasTickets(): boolean {
+            return self.tickets.length < self.totalTickets;
         },
     }))
     .actions((self) => {
-        const loadTickets = flow(function* () {
-            self.tickets = yield fetch('/api/tickets/', { method: 'GET' }).then((res) => res.json());
+        const loadTickets = flow(function* (reload = false) {
+            const url = new URL('http://localhost:3000/api/tickets/');
+            url.searchParams.append('page', self.page.toString());
+            url.searchParams.append('sort', self.sort);
+            url.searchParams.append('stops', self.stops.join(','));
+            if (self.companyId) url.searchParams.append('companyId', self.companyId);
+            try {
+                const data = yield fetch(url.toString()).then((res) => res.json());
+                if (reload) self.tickets.clear();
+                for (const item of data.results) {
+                    self.tickets.push(item);
+                }
+                self.page = ++data.currentPage;
+                self.totalTickets = data.totalCount;
+            } catch (err) {
+                console.log('loading tickets error: ' + err);
+            }
         });
-        const loadCompanies = flow(function* () {
-            self.companies = yield fetch('/api/companies/', { method: 'GET' }).then((res) => res.json());
-        });
-        const loadSegments = flow(function* () {
-            self.segments = yield fetch('/api/segments/', { method: 'GET' }).then((res) => res.json());
-        });
+        const reloadTickets = () => {
+            self.page = 1;
+            self.totalTickets = 0;
+            loadTickets(true).then((r) => r);
+        };
+        const setSort = (value: Sort) => {
+            self.sort = value;
+            reloadTickets();
+        };
+        const setCompanyId = (id: string | null) => {
+            self.companyId = id;
+            reloadTickets();
+        };
+        const addStops = (value: string) => {
+            if (!self.stops.includes(value)) {
+                self.stops.push(value);
+                reloadTickets();
+            }
+        };
+        const removeStops = (value: string) => {
+            if (self.stops.includes(value)) {
+                self.stops = cast(self.stops.filter((v) => v !== value));
+                reloadTickets();
+            }
+        };
+        const setStops = (data: string[]) => {
+            self.stops = cast(data);
+            reloadTickets();
+        };
         return {
             loadTickets,
-            loadCompanies,
-            loadSegments,
-            afterCreate() {
-                loadCompanies();
-                loadSegments();
-                loadTickets();
+            setSort,
+            setCompanyId,
+            addStops,
+            removeStops,
+            setStops,
+            set<K extends keyof SnapshotIn<typeof self>, T extends SnapshotIn<typeof self>>(key: K, value: T[K]) {
+                self[key] = cast(value);
             },
         };
     });
 
 export type IStore = Instance<typeof Store>;
 export type IStoreSnapshotIn = SnapshotIn<typeof Store>;
-export type IStoreSnapshotOut = SnapshotOut<typeof Store>;
 
 let store: IStore | undefined;
 

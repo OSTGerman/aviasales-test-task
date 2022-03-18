@@ -4,23 +4,27 @@ import Image from 'next/image';
 import Block from '@components/UI/Block/Block';
 import styles from './Ticket.module.sass';
 import { ITicket } from '@store/Ticket.model';
-import { ICompany } from '@store/Company.model';
-import { ISegment } from '@store/Segment.model';
 import { calcDuration, declOfNum, priceConverter, timeToString } from '@utils/helperUtils';
 
 interface TicketProps {
     ticket: ITicket;
-    company?: ICompany;
-    segments: Array<ISegment | undefined>;
 }
-const Ticket: React.FC<TicketProps> = ({ ticket, company, segments }) => (
+const Ticket: React.FC<TicketProps> = ({ ticket }) => (
     <Block>
         <BlockHeader>
             <div className={styles.price}>{priceConverter(ticket.price)}</div>
-            {company && <Image src={company.logo} alt={company.name} width={110} height={36} className={styles.logo} />}
+            {ticket.company && (
+                <Image
+                    src={ticket.company.logo}
+                    alt={ticket.company.name}
+                    width={110}
+                    height={36}
+                    className={styles.logo}
+                />
+            )}
         </BlockHeader>
         <div className={styles.content}>
-            {segments.map((segment, index) => (
+            {ticket.segments.map((segment, index) => (
                 <React.Fragment key={segment?.id || index}>
                     {segment && (
                         <div className={styles.row}>
