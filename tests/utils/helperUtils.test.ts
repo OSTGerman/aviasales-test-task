@@ -1,7 +1,13 @@
 import { timeToString, calcDuration, declOfNum, priceConverter } from '@utils/helperUtils';
 
+describe('Timezones', () => {
+    it('should always be UTC', () => {
+        expect(new Date().getTimezoneOffset()).toBe(0);
+    });
+});
+
 const timeToStringTestData: [number | undefined, string | null][] = [
-    [1647637576090, '02:06'],
+    [1647637576090, '21:06'],
     [undefined, null],
     [0, null],
 ];

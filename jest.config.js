@@ -8,4 +8,5 @@ module.exports = {
     collectCoverage: true,
     reporters: ['default', 'jest-junit'],
     coverageReporters: ['json', 'html', 'clover', 'lcov', 'text'],
+    globalSetup: './global-setup.js'
 };
