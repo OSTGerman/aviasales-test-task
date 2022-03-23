@@ -11,13 +11,12 @@ export interface SortStateSchema {
         optimal: StateSchema<any>;
     };
 }
-export type AvailableStates = keyof SortStateSchema['states'];
 const SORT_BY_PRICE: Sort = 'price';
 const SORT_BY_DURATION: Sort = 'duration';
 const SORT_BY_OPTIMAL: Sort = 'optimal';
-export const sortMachine = createMachine<MachineConfig<any, SortStateSchema, SortEvent>>({
+export const sortMachine = createMachine<MachineConfig<null, SortStateSchema, SortEvent>>({
     id: 'sort',
-    initial: 'price',
+    initial: SORT_BY_PRICE,
     states: {
         price: { on: { SORT_BY_DURATION, SORT_BY_OPTIMAL } },
         duration: { on: { SORT_BY_PRICE, SORT_BY_OPTIMAL } },

@@ -5,7 +5,6 @@ import { sortMachine } from '../machine/sort.machine';
 import { interpret } from 'xstate';
 import { API } from '@utils/helperUtils';
 
-export type Sort = 'price' | 'duration' | 'optimal';
 export const Store = types
     .model({
         tickets: types.array(TicketModel),
