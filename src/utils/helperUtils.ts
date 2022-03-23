@@ -1,3 +1,4 @@
+export const API = 'http://localhost:3000/api';
 export const timeToString = (time: number | undefined): string | null => {
     return time
         ? new Date(time).toLocaleString('ru', {
@@ -11,7 +12,7 @@ export const calcDuration = (timestamp: number): string => {
     const hour = ~~(timestamp / 3600000);
     const minutes = ~~((timestamp - hour * 3600000) / 60000);
     if (hour) result += `${hour}ч`;
-    if (minutes || !hour) result += ` ${minutes}м`;
+    if (minutes || !hour) result += (hour ? ' ' : '') + `${minutes}м`;
     return result;
 };
 

@@ -8,9 +8,9 @@ import Block from '@components/UI/Block/Block';
 import { useStore } from '@store/store';
 
 const HomeFilterStops: React.FC<React.PropsWithChildren<{ filter: string[] }>> = observer(({ filter }) => {
-    const { stops, setStops, addStops, removeStops } = useStore();
+    const { stops, set, addStops, removeStops } = useStore();
     React.useEffect(() => {
-        setStops(filter);
+        set('stops', filter);
     }, []);
     return (
         <Block>

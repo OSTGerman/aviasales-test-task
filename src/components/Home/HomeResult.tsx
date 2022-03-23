@@ -7,8 +7,8 @@ import { useStore } from '@store/store';
 import { declOfNum } from '@utils/helperUtils';
 
 const HomeResult: React.FC = observer(() => {
-    const { tickets, loadTickets, hasTickets } = useStore();
-    const ticketsCount = React.useMemo(() => (hasTickets < 5 ? hasTickets : 5), [hasTickets]);
+    const { tickets, loadTickets, ticketsLeft } = useStore();
+    const ticketsCount = React.useMemo(() => (ticketsLeft < 5 ? ticketsLeft : 5), [ticketsLeft]);
     return (
         <div className={styles.result}>
             {!tickets.length ? (

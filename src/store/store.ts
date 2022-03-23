@@ -1,6 +1,9 @@
 import React from 'react';
 import { applySnapshot, cast, flow, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { TicketModel } from '@store/Ticket.model';
+import { sortMachine } from '../machine/sort.machine';
+import { interpret } from 'xstate';
+import { API } from '@utils/helperUtils';
 
 export type Sort = 'price' | 'duration' | 'optimal';
 export const Store = types
@@ -10,20 +13,20 @@ export const Store = types
     })
     .volatile(() => ({
         page: 1,
-        sort: 'price' as Sort,
+        sort: sortMachine.initialState,
         totalTickets: 0,
         companyId: null as string | null,
     }))
     .views((self) => ({
-        get hasTickets(): number {
+        get ticketsLeft(): number {
             return self.totalTickets - self.tickets.length;
         },
     }))
     .actions((self) => {
         const loadTickets = flow(function* (reload = false) {
-            const url = new URL('http://localhost:3000/api/tickets/');
+            const url = new URL(`${API}/tickets/`);
             url.searchParams.append('page', self.page.toString());
-            url.searchParams.append('sort', self.sort);
+            url.searchParams.append('sort', self.sort.toString());
             url.searchParams.append('stops', self.stops.join(','));
             if (self.companyId) url.searchParams.append('companyId', self.companyId);
             try {
@@ -40,11 +43,10 @@ export const Store = types
         });
         const reloadTickets = () => {
             self.page = 1;
-            self.totalTickets = 0;
             loadTickets(true).then((r) => r);
         };
-        const setSort = (value: Sort) => {
-            self.sort = value;
+        const setSort = (newState: any) => {
+            self.sort = newState.value;
             reloadTickets();
         };
         const setCompanyId = (id: string | null) => {
@@ -63,22 +65,20 @@ export const Store = types
                 reloadTickets();
             }
         };
-        const setStops = (data: string[]) => {
-            self.stops = cast(data);
-            reloadTickets();
-        };
         return {
             loadTickets,
             setSort,
             setCompanyId,
             addStops,
             removeStops,
-            setStops,
             set<K extends keyof SnapshotIn<typeof self>, T extends SnapshotIn<typeof self>>(key: K, value: T[K]) {
                 self[key] = cast(value);
             },
         };
-    });
+    })
+    .volatile((self) => ({
+        service: interpret(sortMachine).onTransition((current) => self.setSort(current)),
+    }));
 
 export type IStore = Instance<typeof Store>;
 export type IStoreSnapshotIn = SnapshotIn<typeof Store>;

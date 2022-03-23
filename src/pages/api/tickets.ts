@@ -43,8 +43,9 @@ function getSortedFilteredTickets(sort: string, stops: string[], companyId?: str
             return filteredTickets;
     }
 }
+type Query = { page: string; sort: string; stops: string; companyId?: string };
 export default function handler(req: NextApiRequest, res: NextApiResponse<TicketsResponse>) {
-    const { page, sort, companyId, stops } = req.query as any;
+    const { page, sort, companyId, stops } = req.query as Query;
     const requestedPage = Number(page) || 1;
     const sortedTickets = getSortedFilteredTickets(sort, stops.split(','), companyId);
     const perPage = 5;

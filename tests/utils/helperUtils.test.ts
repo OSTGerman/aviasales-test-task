@@ -16,7 +16,12 @@ describe('test timeToString function', () => {
     }
 });
 
-const calcDurationTestData: [number, string][] = [[7200000, '2ч']];
+const calcDurationTestData: [number, string][] = [
+    [7200000, '2ч'],
+    [5401111, '1ч 30м'],
+    [1680001, '28м'],
+    [174600011, '48ч 30м'],
+];
 
 describe('test calcDuration function', () => {
     for (let i = 0; i < calcDurationTestData.length; i++) {

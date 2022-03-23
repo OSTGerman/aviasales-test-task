@@ -8,10 +8,11 @@ import HomeFilterCompany from '@components/Home/HomeFilterCompany';
 import HomeSort from '@components/Home/HomeSort';
 import HomeResult from '@components/Home/HomeResult';
 import { Company } from '@models/interfaces';
+import { API } from '@utils/helperUtils';
 
 export const getServerSideProps = async () => {
-    const filter: string[] = await fetch('http://localhost:3000/api/stops/').then((res) => res.json());
-    const companies: Company[] = await fetch('http://localhost:3000/api/companies/').then((res) => res.json());
+    const filter: string[] = await fetch(`${API}/stops/`).then((res) => res.json());
+    const companies: Company[] = await fetch(`${API}/companies/`).then((res) => res.json());
     return { props: { filter, companies } };
 };
 

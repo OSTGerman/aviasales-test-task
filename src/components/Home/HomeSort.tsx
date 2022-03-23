@@ -6,17 +6,32 @@ import { useStore } from '@store/store';
 import styles from '@components/Home/Home.module.sass';
 
 const HomeSort: React.FC = observer(() => {
-    const { sort, setSort } = useStore();
+    const { sort, service } = useStore();
+    React.useEffect(() => {
+        service.start();
+        return () => {
+            service.stop();
+        };
+    }, []);
     return (
         <div className={styles.sort}>
             <ButtonGroup>
-                <Button mode={sort === 'price' ? 'primary' : 'secondary'} onClick={() => setSort('price')}>
+                <Button
+                    mode={sort.toString() === 'price' ? 'primary' : 'secondary'}
+                    onClick={() => service.send('SORT_BY_PRICE')}
+                >
                     Самый дешевый
                 </Button>
-                <Button mode={sort === 'duration' ? 'primary' : 'secondary'} onClick={() => setSort('duration')}>
+                <Button
+                    mode={sort.toString() === 'duration' ? 'primary' : 'secondary'}
+                    onClick={() => service.send('SORT_BY_DURATION')}
+                >
                     Самый быстрый
                 </Button>
-                <Button mode={sort === 'optimal' ? 'primary' : 'secondary'} onClick={() => setSort('optimal')}>
+                <Button
+                    mode={sort.toString() === 'optimal' ? 'primary' : 'secondary'}
+                    onClick={() => service.send('SORT_BY_OPTIMAL')}
+                >
                     Оптимальный
                 </Button>
             </ButtonGroup>
